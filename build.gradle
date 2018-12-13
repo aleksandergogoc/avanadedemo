@@ -1,0 +1,86 @@
+import java.util.concurrent.TimeUnit
+plugins {
+    id 'java'
+    id 'groovy'
+}
+
+group 'org.agogoc.avanadedemo'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.12'
+    testCompile  'org.testng:testng:6.10'
+    testCompile  group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.9.1'
+    testCompile  group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.9.1'
+    testCompile  group: 'org.seleniumhq.selenium', name: 'selenium-remote-driver', version: '3.9.1'
+    testCompile  "org.seleniumhq.selenium:selenium-firefox-driver:3.9.1"
+}
+
+task guiTest(type: Test, description: 'Runs Avanade Technical Task GUI tests') {
+
+    useTestNG {
+        systemProperty "browser", System.getProperty("browser")
+
+        String testGroups = System.getProperty('Categories')
+        String runFailed = System.getProperty('RunFailed')
+
+        if(runFailed == "true"){
+            suites 'build/reports/tests/guiTest/testng-failed.xml'
+        } else
+            include "**/avanade/demo/test/**"
+        if(testGroups != null && testGroups != "") {
+            includeGroups testGroups
+        } else {
+            includeGroups 'default'
+        }
+    }
+
+    options{
+        setParallel('methods')
+        setThreadCount(5)
+        useDefaultListeners(true)
+    }
+
+    beforeTest { desc ->
+        println "\n*** Starting execution of test ${desc.className}.${desc.name} ***"
+    }
+    afterTest { descriptor, result ->
+        println "<<< Test ${descriptor.className}.${descriptor.name} resulted in ${result.resultType} and took "+getElapsedTime(result.endTime - result.startTime)+" >>>\n"
+    }
+
+    //Modify the test logging
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat "full"
+    }
+    onOutput { descriptor, event ->
+        logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+    }
+}
+
+guiTest.dependsOn 'cleanTest'
+tasks["guiTest"].outputs.upToDateWhen {false}
+
+
+def getElapsedTime(long duration) {
+    long seconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+    long days = TimeUnit.MILLISECONDS.toDays(duration);
+    long hours = TimeUnit.MILLISECONDS.toHours(duration);
+    long minutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+    if (days > 0) {
+        return days + " days";
+    }
+    if (hours > 0) {
+        return hours + " hours";
+    }
+    if (minutes > 0) {
+        return minutes + " minutes";
+    }
+    return seconds + " seconds";
+}

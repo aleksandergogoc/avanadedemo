@@ -1,0 +1,11 @@
+.idea/
+.gradle/
+gradle/
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+Thumbs.db
