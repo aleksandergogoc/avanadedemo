@@ -1,6 +1,9 @@
 .idea/
 .gradle/
 gradle/
+build/
+out/
+*.iml
 
 # Logs and databases #
 ######################

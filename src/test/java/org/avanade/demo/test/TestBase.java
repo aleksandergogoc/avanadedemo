@@ -25,58 +25,38 @@ import static org.testng.Assert.assertTrue;
 public abstract class TestBase {
 
     private WebDriver driver;
-    private String startPageUrl;
+    private static final String startPageUrl = "https://www.avanade.com/en";
 
+    @BeforeClass
+    public void setUpDriver(){
+        String browser;
+        if(System.getProperty("browser") == "" || System.getProperty("browser") == null){
+            browser = "FIREFOX";
+        } else browser = System.getProperty("browser").toUpperCase();
 
-    /**
-     * Setup the chrome driver before any test is run
-     */
-    @BeforeClass(alwaysRun = true)
-    public static void setUpClass() {
-        getDrivers();
+        switch (browser) {
+            case "FIREFOX" :
+                System.setProperty("webdriver.gecko.driver", "src/test/resources/geckoDriver.exe");
+                driver = new FirefoxDriver();
+                break;
+            case "CHROME" :
+                System.setProperty("webdriver.chrome.driver", "src/test/resources/chromeDriver.exe");
+                driver = new ChromeDriver();
+                break;
+            default :
+                System.setProperty("webdriver.gecko.driver", "src/test/resources/geckoDriver.exe");
+                driver = new FirefoxDriver();
+                break;
+        }
     }
-
-    private static void getDrivers() {
-        FirefoxDriverManager.getInstance().setup();
-    }
-
-     public void setUpDriver(String browser) throws MalformedURLException {
-            switch (browser.toUpperCase()) {
-                case "FIREFOX" :
-                    System.setProperty("webdriver.gecko.driver", "src/test/resources/geckoDriver.exe");
-                    driver = new FirefoxDriver();
-                    break;
-                case "CHROME" :
-                    System.setProperty("webdriver.chrome.driver", "src/test/resources/chromeDriver.exe");
-                    driver = new ChromeDriver();
-                    break;
-                case "IE" :
-                    System.setProperty("webdriver.ie.driver", "src/test/resources/ieDriver32.exe");
-                    driver = new InternetExplorerDriver();
-                    break;
-                default :
-                    System.setProperty("webdriver.gecko.driver", "src/test/resources/geckoDriver.exe");
-                    driver = new FirefoxDriver();
-                    break;
-            }
-
-    }
-
-
-    @BeforeClass(alwaysRun = true)
-    public void setUp(String browser, String startPageUrl) throws Exception {
-        setUpDriver(browser);
-        setStartUrl(startPageUrl);
-    }
-
 
     @AfterClass(alwaysRun = true)
     public void tearDownTest() {
         getDriver().close();
-        getDriver().quit();
     }
 
     public AvanadeHomePage loadHomePage() {
+        driver.navigate().to(getStartPageUrl());
         return new AvanadeHomePage(getDriver());
     }
 
@@ -85,9 +65,9 @@ public abstract class TestBase {
     public void catchExceptions(ITestResult result) throws IOException {
         if(!result.isSuccess()) {
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
             String methodName = result.getName();
-            Utils.takeSnapShot(driver, "build/reports/tests/TestFailureScreenshots/"+methodName+"_"+formater.format(calendar.getTime())+".png");
+            Utils.takeSnapShot(driver, "build/reports/tests/guiTest/TestFailureScreenshots/"+methodName+"_"+formatter.format(calendar.getTime())+".png");
         }
     }
 
@@ -98,11 +78,5 @@ public abstract class TestBase {
     public String getStartPageUrl() {
         return startPageUrl;
     }
-
-    public void setStartUrl(String url) {
-        startPageUrl = url;
-    }
-
-
 
 }

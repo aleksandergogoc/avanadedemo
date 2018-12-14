@@ -14,12 +14,13 @@ repositories {
 }
 
 dependencies {
+    testCompile group: 'commons-io', name: 'commons-io', version: '2.5'
     testCompile 'org.codehaus.groovy:groovy-all:2.4.12'
-    testCompile  'org.testng:testng:6.10'
-    testCompile  group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.9.1'
-    testCompile  group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.9.1'
-    testCompile  group: 'org.seleniumhq.selenium', name: 'selenium-remote-driver', version: '3.9.1'
-    testCompile  "org.seleniumhq.selenium:selenium-firefox-driver:3.9.1"
+    testCompile  'org.testng:testng:6.+'
+    testCompile  group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.+'
+    testCompile  group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.+'
+    testCompile  group: 'org.seleniumhq.selenium', name: 'selenium-remote-driver', version: '3.+'
+    testCompile  "org.seleniumhq.selenium:selenium-firefox-driver:3.+"
 }
 
 task guiTest(type: Test, description: 'Runs Avanade Technical Task GUI tests') {
@@ -42,7 +43,7 @@ task guiTest(type: Test, description: 'Runs Avanade Technical Task GUI tests') {
     }
 
     options{
-        setParallel('methods')
+        setParallel('classes')
         setThreadCount(5)
         useDefaultListeners(true)
     }
