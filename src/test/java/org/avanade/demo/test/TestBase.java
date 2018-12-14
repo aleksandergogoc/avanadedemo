@@ -27,7 +27,7 @@ public abstract class TestBase {
     private WebDriver driver;
     private static final String startPageUrl = "https://www.avanade.com/en";
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setUpDriver(){
         String browser;
         if(System.getProperty("browser") == "" || System.getProperty("browser") == null){
@@ -52,7 +52,7 @@ public abstract class TestBase {
 
     @AfterClass(alwaysRun = true)
     public void tearDownTest() {
-        getDriver().close();
+        //getDriver().close();
     }
 
     public AvanadeHomePage loadHomePage() {

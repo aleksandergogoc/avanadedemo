@@ -1,6 +1,7 @@
 package org.avanade.demo.pageobject;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -46,6 +47,12 @@ public abstract class BaseObjectClass {
 
     protected boolean hasAnyTextDisplayed(By locator){
         return (driver.findElement(locator).getText() != null && driver.findElement(locator).getText() != "");
+    }
+
+    protected void moveToElement(By locator){
+        Actions action = new Actions(driver);
+        WebElement we = driver.findElement(locator);
+        action.moveToElement(we).perform();
     }
 
     protected String getElementText(By locator){
