@@ -2,6 +2,7 @@ package org.avanade.demo.test;
 
 import org.avanade.demo.helpers.Utils;
 import org.avanade.demo.pageobject.AvanadeHomePage;
+import org.avanade.demo.pageobject.Careers.RolesAndLocationsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -77,6 +78,15 @@ public abstract class TestBase {
 
     public String getStartPageUrl() {
         return startPageUrl;
+    }
+
+    RolesAndLocationsPage navigateToRolesAndLocationsPage(){
+        AvanadeHomePage avanadeHomePage = loadHomePage();
+        RolesAndLocationsPage rolesAndLocationsPage = avanadeHomePage
+                .moveMouseToCareers()
+                .moveMouseToRolesAndLocations()
+                .clickRolesAndLocations();
+        return rolesAndLocationsPage;
     }
 
 }
