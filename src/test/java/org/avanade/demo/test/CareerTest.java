@@ -14,31 +14,31 @@ public class CareerTest extends TestBase {
 
     @Test(enabled = true, retryAnalyzer = RetryFailed.class, groups = {"default"})
     public void testMoreThan10ResultsForCanada() {
-        String location = "Canada";
+        String country = "Canada";
 
         RolesAndLocationsPage rolesAndLocationsPage = navigateToRolesAndLocationsPage();
         CareerSearchResults careerSearchResults =
                 rolesAndLocationsPage
-                        .selectLocation(location)
+                        .selectLocation(country)
                         .clickSearchButton();
         assertTrue(careerSearchResults.getResultCount() > 10, "Search result number for Canada should be more than 10!");
     }
 
     @Test(enabled = true, retryAnalyzer = RetryFailed.class, groups = {"default"})
     public void testMoreThan1ResultsForDenmark() {
-        String location = "Denmark";
+        String country = "Denmark";
 
         RolesAndLocationsPage rolesAndLocationsPage = navigateToRolesAndLocationsPage();
         CareerSearchResults careerSearchResults =
                 rolesAndLocationsPage
-                        .selectLocation(location)
+                        .selectLocation(country)
                         .clickSearchButton();
         assertTrue(careerSearchResults.getResultCount() > 1, "Search result number for Denmark should be more than 1!");
     }
 
     @Test(enabled = true, retryAnalyzer = RetryFailed.class, groups = {"default"})
     public void testQualificationForJobOfferRaleigh() {
-        String location = "United States";
+        String country = "United States";
         String city = "Raleigh";
         String job = "QA Test";
         String expectedQualification = "Experience with Agile/Scrum methodology";
@@ -46,7 +46,7 @@ public class CareerTest extends TestBase {
         RolesAndLocationsPage rolesAndLocationsPage = navigateToRolesAndLocationsPage();
         CareerSearchResults careerSearchResults =
                 rolesAndLocationsPage
-                        .selectLocation(location)
+                        .selectLocation(country)
                         .clickSearchButton();
         LocationsList locationsList = careerSearchResults.clickLocationsLink();
         careerSearchResults = locationsList.clickLocation(city);

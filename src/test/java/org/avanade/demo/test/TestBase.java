@@ -53,7 +53,7 @@ public abstract class TestBase {
 
     @AfterClass(alwaysRun = true)
     public void tearDownTest() {
-        //getDriver().close();
+        getDriver().close();
     }
 
     public AvanadeHomePage loadHomePage() {

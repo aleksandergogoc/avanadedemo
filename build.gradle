@@ -57,7 +57,7 @@ task guiTest(type: Test, description: 'Runs Avanade Technical Task GUI tests') {
 
     //Modify the test logging
     testLogging {
-        showStandardStreams = true
+        showStandardStreams = false
         exceptionFormat "full"
     }
     onOutput { descriptor, event ->
