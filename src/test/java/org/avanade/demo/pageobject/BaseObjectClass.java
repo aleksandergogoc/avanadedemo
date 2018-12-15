@@ -3,23 +3,15 @@ package org.avanade.demo.pageobject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.List;
-
-import static org.testng.Assert.assertEquals;
 
 public abstract class BaseObjectClass {
     protected WebDriver driver;
     protected WebDriverWait wait;
-    protected WebDriverWait longWait;
 
     public BaseObjectClass(WebDriver driver){
         this.driver = driver;
-        wait = new WebDriverWait(driver,20);
-
-        //Longer wait to use in particular situations:
-        longWait = new WebDriverWait(driver,60);
+        wait = new WebDriverWait(driver,30);
     }
 
     protected void waitForElementVisibility(By element){
@@ -28,11 +20,6 @@ public abstract class BaseObjectClass {
 
     protected void waitForElementClickable(By element){
         wait.until(ExpectedConditions.elementToBeClickable(element));
-    }
-
-    protected void clearElement(By element) {
-        driver.findElement(element).click();
-        driver.findElement(element).clear();
     }
 
     protected void clickElement(By locator) {
@@ -45,10 +32,6 @@ public abstract class BaseObjectClass {
         }
     }
 
-    protected boolean hasAnyTextDisplayed(By locator){
-        return (driver.findElement(locator).getText() != null && driver.findElement(locator).getText() != "");
-    }
-
     protected void moveToElement(By locator){
         Actions action = new Actions(driver);
         WebElement we = driver.findElement(locator);
@@ -59,12 +42,4 @@ public abstract class BaseObjectClass {
         return driver.findElement(locator).getText();
     }
 
-    protected String getElementValue(By locator){
-        return driver.findElement(locator).getAttribute("value");
-    }
-
-    protected boolean isElementCountEqualTo(By locator, int count){
-        List<WebElement> elements = driver.findElements(locator);
-        return (elements.size() == count);
-    }
 }

@@ -1,7 +1,6 @@
 package org.avanade.demo.test;
 
 import org.avanade.demo.helpers.RetryFailed;
-import org.avanade.demo.pageobject.AvanadeHomePage;
 import org.avanade.demo.pageobject.Careers.CareerSearchResults;
 import org.avanade.demo.pageobject.Careers.JobOfferDetails;
 import org.avanade.demo.pageobject.Careers.LocationsList;
@@ -15,25 +14,27 @@ public class CareerTest extends TestBase {
     @Test(enabled = true, retryAnalyzer = RetryFailed.class, groups = {"default"})
     public void testMoreThan10ResultsForCanada() {
         String country = "Canada";
+        int expectedMinValue = 10;
 
         RolesAndLocationsPage rolesAndLocationsPage = navigateToRolesAndLocationsPage();
         CareerSearchResults careerSearchResults =
                 rolesAndLocationsPage
                         .selectLocation(country)
                         .clickSearchButton();
-        assertTrue(careerSearchResults.getResultCount() > 10, "Search result number for Canada should be more than 10!");
+        assertTrue(careerSearchResults.getResultCount() > expectedMinValue, "Search result number for Canada should be more than 10!");
     }
 
     @Test(enabled = true, retryAnalyzer = RetryFailed.class, groups = {"default"})
     public void testMoreThan1ResultsForDenmark() {
         String country = "Denmark";
+        int expectedMinValue = 1;
 
         RolesAndLocationsPage rolesAndLocationsPage = navigateToRolesAndLocationsPage();
         CareerSearchResults careerSearchResults =
                 rolesAndLocationsPage
                         .selectLocation(country)
                         .clickSearchButton();
-        assertTrue(careerSearchResults.getResultCount() > 1, "Search result number for Denmark should be more than 1!");
+        assertTrue(careerSearchResults.getResultCount() > expectedMinValue, "Search result number for Denmark should be more than 1!");
     }
 
     @Test(enabled = true, retryAnalyzer = RetryFailed.class, groups = {"default"})

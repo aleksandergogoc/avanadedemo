@@ -3,7 +3,6 @@ package org.avanade.demo.pageobject.Careers;
 import org.avanade.demo.pageobject.BaseObjectClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class RolesAndLocationsPage extends BaseObjectClass {
